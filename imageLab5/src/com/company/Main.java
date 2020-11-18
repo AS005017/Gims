@@ -37,7 +37,7 @@ public class Main {
             Mat source = Imgcodecs.imread(path,Imgcodecs.IMREAD_GRAYSCALE);
             Mat destination = new Mat(source.rows(),source.cols(),source.type());
 
-            Mat kernel = new Mat(kernelSize,kernelSize, CvType.CV_32F) { //Вводим матрицу фильтра Собеля по y
+            Mat kernel = new Mat(kernelSize,kernelSize, CvType.CV_32FC1) { //Вводим матрицу фильтра Собеля по y
                 {
                     put(0,0,1);
                     put(0,1,2);
