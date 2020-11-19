@@ -1,9 +1,6 @@
 package com.company;
 
-import org.opencv.core.Core;
-import org.opencv.core.CvType;
-import org.opencv.core.Mat;
-import org.opencv.core.Size;
+import org.opencv.core.*;
 import org.opencv.imgcodecs.Imgcodecs;
 import org.opencv.imgproc.Imgproc;
 
@@ -24,7 +21,16 @@ public class Main {
             int probability = input.nextInt();
 
             Mat destination = new Mat(source.rows(),source.cols(),source.type());
+            Mat noise = new Mat(source.size(), source.type());
+            MatOfDouble mean = new MatOfDouble ();
+            MatOfDouble dev = new MatOfDouble();
+
+            Core.meanStdDev(source,mean,dev);
+            Core.randn(noise,mean.get(0,0)[0], dev.get(0,0)[0]);
+            Core.add(source, noise, source);
+            Imgcodecs.imwrite("noise.jpg", source);
             Imgproc.GaussianBlur(source, destination,new Size(probability,probability), 0);
+
             Imgcodecs.imwrite("Gaussian"+ probability + ".jpg", destination);
             System.out.println("Применение фильтра Гауса со степенью " + probability + " завершено успешно!");
 
